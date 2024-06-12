@@ -6,4 +6,4 @@ pillow==10.2.0
 pytz==2024.1
 sqlparse==0.5.0
 tzdata==2024.1
-""" Se debe cambiar a IsAuthenticated para que solo pueden ingresar si está autenticado """
+

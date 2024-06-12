@@ -1,5 +1,5 @@
 """ from django.core.validators import RegexValidator """
-from django.db import models
+from django.db import models 
 
 # Create your models here.
 
@@ -86,7 +86,7 @@ estadosSeguimiento =[
 
 
 class Seguimiento(models.Model):
-    fecha = models.DateField()  # Use DateField for dates
+    fecha = models.DateField()  
     estado = models.BooleanField(default=True)
     rotor = models.CharField(max_length=10)
     temperatura_s1 = models.FloatField()

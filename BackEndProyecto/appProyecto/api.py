@@ -12,9 +12,26 @@ class OperarioViewSet(viewsets.ModelViewSet):
 
 
 from rest_framework import viewsets
-from .models import Operario  # Importa tu modelo
-from .serializer import OperarioSerializer  # Importa tu serializer
+from .models import *
+from .serializer import OperarioSerializer, ProveedorSerializer, SeguimientoSerializer, MaquinaSerializer  
 
 class OperarioViewSet(viewsets.ModelViewSet):
     queryset = Operario.objects.all()
     serializer_class = OperarioSerializer
+    
+
+    
+class ProveedorViewSet(viewsets.ModelViewSet):
+    queryset = Proveedor.objects.all()
+    serializer_class = ProveedorSerializer
+
+
+
+class SeguimientoViewSet(viewsets.ModelViewSet):
+    queryset = Seguimiento.objects.all()
+    serializer_class = SeguimientoSerializer
+    
+    
+class MaquinaViewSet(viewsets.ModelViewSet):
+    queryset = Maquina.objects.all()
+    serializer_class = MaquinaSerializer    
