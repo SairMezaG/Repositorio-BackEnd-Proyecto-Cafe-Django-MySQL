@@ -1,8 +1,9 @@
 asgiref==3.8.1
 Django==5.0.4
+djangorestframework==3.15.1
 mysqlclient==2.2.4
 pillow==10.2.0
 pytz==2024.1
 sqlparse==0.5.0
 tzdata==2024.1
-pillow==10.2.0
+""" Se debe cambiar a IsAuthenticated para que solo pueden ingresar si está autenticado """
