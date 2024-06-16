@@ -7,9 +7,8 @@ from appProyecto.models import *
 #  Esto me permite visualizar en el administrador de Django los modelos generados 
 # para su administración.
 admin.site.register(LoteCafe)
-admin.site.register(Operario)
+admin.site.register(Usuario)
 admin.site.register(Maquina)
-admin.site.register(Proveedor)
 admin.site.register(Seguimiento)
 admin.site.register(TipoProceso)
 admin.site.register(Variedad)

@@ -13,19 +13,14 @@ class OperarioViewSet(viewsets.ModelViewSet):
 
 from rest_framework import viewsets
 from .models import *
-from .serializer import OperarioSerializer, ProveedorSerializer, SeguimientoSerializer, MaquinaSerializer  
+from .serializer import *
 
-class OperarioViewSet(viewsets.ModelViewSet):
-    queryset = Operario.objects.all()
-    serializer_class = OperarioSerializer
+class UsuarioViewSet(viewsets.ModelViewSet):    
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
     
 
     
-class ProveedorViewSet(viewsets.ModelViewSet):
-    queryset = Proveedor.objects.all()
-    serializer_class = ProveedorSerializer
-
-
 
 class SeguimientoViewSet(viewsets.ModelViewSet):
     queryset = Seguimiento.objects.all()
@@ -35,3 +30,27 @@ class SeguimientoViewSet(viewsets.ModelViewSet):
 class MaquinaViewSet(viewsets.ModelViewSet):
     queryset = Maquina.objects.all()
     serializer_class = MaquinaSerializer    
+
+
+class LoteCafeViewSet(viewsets.ModelViewSet):
+    queryset = LoteCafe.objects.all()
+    serializer_class = LoteCafeSerializer        
+
+
+
+class TipoProcesoViewSet(viewsets.ModelViewSet):
+    queryset = TipoProceso.objects.all()
+    serializer_class = TipoProcesoSerializer        
+
+
+
+
+class VariedadViewSet(viewsets.ModelViewSet):
+    queryset = Variedad.objects.all()
+    serializer_class = VariedadSerializer        
+
+
+
+class DatosViewSet(viewsets.ModelViewSet):
+    queryset = Datos.objects.all()
+    serializer_class = DatosSerializer     

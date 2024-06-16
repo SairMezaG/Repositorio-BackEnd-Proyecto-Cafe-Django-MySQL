@@ -1,108 +1,77 @@
-""" from django.core.validators import RegexValidator """
-from django.db import models 
+from django.core.validators import RegexValidator
+from django.db import models
 
-# Create your models here.
+
+# Modelos
+
+
 
 class LoteCafe(models.Model):
-    peso = models.FloatField()  
-    proveedor = models.CharField(max_length=50)
+    peso = models.FloatField()
+    usuario = models.CharField(max_length=50)
     tipo_proceso = models.CharField(max_length=50)
     variedad_cafe = models.CharField(max_length=50)
-    
-    def __str__(self):
-        return self.tipo_proceso
-    
-    
 
-
-
-    
-estadosOperario =[
-    ('Activo', 'Activo'),
-    ('Inactivo', 'Inactivo'),
-    
-]         
-
-
-class Operario(models.Model):
-    cedula = models.CharField(max_length=20)
-    nombres_completos = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=10)
-    direccion = models.CharField(max_length=50)
-    email = models.EmailField(max_length=50)
 
     class Meta:
-        verbose_name = "Operario"
-        verbose_name_plural = "Operarios"
+        verbose_name = "LoteCafe"
+        verbose_name_plural = "LotesCafe"
+
+    def __str__(self):
+        return self.usuario
+
+
+
+class Usuario(models.Model):
+    username = models.CharField(max_length=70, unique=True)
+    password = models.CharField(max_length=20)  # Considerar usar un campo de contraseña adecuado más adelante.
+    cedula = models.CharField(max_length=20)
+    nombres_completos = models.CharField(max_length=100)
+    telefono = models.CharField(max_length=10, validators=[RegexValidator(regex=r'^\d{10}$', message='El número de teléfono debe tener 10 dígitos')])
+    direccion = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
+    estado = models.CharField(max_length=8, choices=[('Activo', 'Activo'), ('Inactivo', 'Inactivo')])
+    foto = models.ImageField(upload_to='fotos/', blank=True, null=True)  
+    tipo_usuario = models.CharField(max_length=20, choices=[('Administrador', 'Administrador'), ('Operario', 'Operario'), ('Proveedor', 'Proveedor')])
+
+    class Meta:
+        verbose_name = "Usuario"
+        verbose_name_plural = "Usuarios"
 
     def __str__(self):
         return self.nombres_completos
 
 
-
-
-
-
-estadosMaquina =[
-    ('Activa', 'Activa'),
-    ('Inactiva', 'Inactiva'),
-    
-]         
-
-
 class Maquina(models.Model):
-   
+    id_maquina = models.CharField(max_length=20, unique=True)
     nombre = models.CharField(max_length=50)
+    estado = models.CharField(max_length=8, choices=[('Activa', 'Activa'), ('Inactiva', 'Inactiva')], default='Activa')
 
     class Meta:
-        verbose_name = "Maquina"
-        verbose_name_plural = "Maquinas"
+        verbose_name = "Máquina"
+        verbose_name_plural = "Máquinas"
 
     def __str__(self):
         return self.nombre
 
 
-class Proveedor(models.Model):
-    cedula = models.CharField(max_length=20)
-    nombres_completos = models.CharField(max_length=50)
-    telefono = models.CharField(  max_length=10 )
-    direccion = models.CharField(max_length=50)
-    email = models.EmailField(max_length=50)
-
-    class Meta:
-        verbose_name = "Proveedor"
-        verbose_name_plural = "Proveedores"
-
-    def __str__(self):
-        return self.nombres_completos
-    
-    
-    
-estadosSeguimiento =[
-    ('Encendido', 'Encendido'),
-    ('Apagado', 'Apagado'),
-    ('Mantenimiento', 'Mantenimiento')
-]     
-
-
-class Seguimiento(models.Model):
-    fecha = models.DateField()  
-    estado = models.BooleanField(default=True)
-    rotor = models.CharField(max_length=10)
+class Datos(models.Model):
+    temperatura = models.FloatField()
     temperatura_s1 = models.FloatField()
     temperatura_s2 = models.FloatField()
     temperatura_promedio = models.FloatField()
-    maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT)
-    lote_cafe = models.ForeignKey(LoteCafe, on_delete=models.PROTECT)
-    operario = models.ForeignKey(Operario, on_delete=models.PROTECT)
-    ventilador = models.BooleanField(default=True)
+    id_maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT)
+    fecha = models.DateField()
+    
 
     class Meta:
-        verbose_name = "Seguimiento"
-        verbose_name_plural = "Seguimientos"
+        verbose_name = "Dato"
+        verbose_name_plural = "Datos"
 
     def __str__(self):
-        return f"{self.maquina} - {self.fecha}"
+        return self.temperatura_promedio
+
+    
 
 
 class TipoProceso(models.Model):
@@ -126,4 +95,18 @@ class Variedad(models.Model):
     def __str__(self):
         return self.nombre
 
-    
+
+class Seguimiento(models.Model):
+    fecha = models.DateField()
+    estado = models.CharField(max_length=18, choices=[('Operando', 'Operando'), ('Fuera de Servicio', 'Fuera de Servicio'), ('En Mantenimiento', 'En Mantenimiento')])
+    maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT)
+    lote_cafe = models.ForeignKey(LoteCafe, on_delete=models.PROTECT)
+    usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT)
+    id_proceso = models.ForeignKey(TipoProceso, on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = "Seguimiento"
+        verbose_name_plural = "Seguimientos"
+
+    def __str__(self):
+        return f"{self.maquina} - {self.fecha}"

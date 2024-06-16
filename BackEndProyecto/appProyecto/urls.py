@@ -1,16 +1,20 @@
 from rest_framework import routers
 
-from .api import OperarioViewSet, ProveedorViewSet, SeguimientoViewSet,MaquinaViewSet
+from .api import UsuarioViewSet, MaquinaViewSet, LoteCafeViewSet, TipoProcesoViewSet, DatosViewSet
 
 router = routers.DefaultRouter()
 
-router.register("api/appProyecto/operario", OperarioViewSet, "operario")
+router.register("api/appProyecto/usuario", UsuarioViewSet, "usuario")
 
-router.register("api/appProyecto/proveedor", ProveedorViewSet, "proveedor")
+router.register("api/appProyecto/loteCafe", LoteCafeViewSet, "loteCafe")
 
-router.register("api/appProyecto/seguimiento", SeguimientoViewSet, "seguimiento")
+router.register("api/appProyecto/tipoProceso", TipoProcesoViewSet, "tipoProceso")
+
+router.register("api/appProyecto/variedad", LoteCafeViewSet, "variedad")
 
 router.register("api/appProyecto/maquina", MaquinaViewSet, "maquina")
+
+router.register("api/appProyecto/datos", DatosViewSet, "datos")
 
 urlpatterns = router.urls
  
