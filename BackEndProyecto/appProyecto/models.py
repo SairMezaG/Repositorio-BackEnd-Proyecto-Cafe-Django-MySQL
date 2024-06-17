@@ -4,24 +4,6 @@ from django.db import models
 
 # Modelos
 
-
-
-class LoteCafe(models.Model):
-    peso = models.FloatField()
-    usuario = models.CharField(max_length=50)
-    tipo_proceso = models.CharField(max_length=50)
-    variedad_cafe = models.CharField(max_length=50)
-
-
-    class Meta:
-        verbose_name = "LoteCafe"
-        verbose_name_plural = "LotesCafe"
-
-    def __str__(self):
-        return self.usuario
-
-
-
 class Usuario(models.Model):
     username = models.CharField(max_length=70, unique=True)
     password = models.CharField(max_length=20)  # Considerar usar un campo de contraseña adecuado más adelante.
@@ -94,15 +76,35 @@ class Variedad(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+
+
+
+class LoteCafe(models.Model):
+    numero_lote = models.IntegerField(max_length=20)
+    peso = models.FloatField()
+    usuario = models.CharField(max_length=50)
+    nombre_proceso = models.ForeignKey(TipoProceso, on_delete=models.PROTECT)
+    
+
+
+    class Meta:
+        verbose_name = "LoteCafe"
+        verbose_name_plural = "LotesCafe"
+
+    def __str__(self):
+        return self.usuario
+
+
 
 
 class Seguimiento(models.Model):
     fecha = models.DateField()
     estado = models.CharField(max_length=18, choices=[('Operando', 'Operando'), ('Fuera de Servicio', 'Fuera de Servicio'), ('En Mantenimiento', 'En Mantenimiento')])
     maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT)
-    lote_cafe = models.ForeignKey(LoteCafe, on_delete=models.PROTECT)
     usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT)
-    id_proceso = models.ForeignKey(TipoProceso, on_delete=models.PROTECT)
+    lote = models.ForeignKey(LoteCafe, on_delete=models.PROTECT)
+    proceso = models.ForeignKey(TipoProceso, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = "Seguimiento"
