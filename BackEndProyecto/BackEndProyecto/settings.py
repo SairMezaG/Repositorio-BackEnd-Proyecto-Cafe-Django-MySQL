@@ -92,7 +92,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
-        'PORT': '3306',
+        'PORT': '3306',  # Cambia al nuevo puerto
     }
 }
 
